@@ -1,7 +1,7 @@
 services:
   # The postgres database.
   db:
-    image: postgres:15-alpine
+    image: docker.arvancloud.ir/postgres:15-alpine
     restart: always
     env_file:
       - ./middleware.env
@@ -27,7 +27,7 @@ services:
 
   # The redis cache.
   redis:
-    image: redis:6-alpine
+    image: docker.arvancloud.ir/redis:6-alpine
     restart: always
     env_file:
       - ./middleware.env
@@ -45,7 +45,7 @@ services:
 
   # The DifySandbox
   sandbox:
-    image: langgenius/dify-sandbox:0.2.11
+    image: docker.arvancloud.ir/langgenius/dify-sandbox:0.2.11
     restart: always
     env_file:
       - ./middleware.env
@@ -71,7 +71,7 @@ services:
 
   # plugin daemon
   plugin_daemon:
-    image: langgenius/dify-plugin-daemon:0.0.9-local
+    image: docker.arvancloud.ir/langgenius/dify-plugin-daemon:0.0.9-local
     restart: always
     env_file:
       - ./middleware.env
@@ -125,7 +125,7 @@ services:
   # for more information, please refer to
   # https://docs.dify.ai/learn-more/faq/install-faq#18-why-is-ssrf-proxy-needed%3F
   ssrf_proxy:
-    image: ubuntu/squid:latest
+    image: danava-squid #diouxx/squid:latest
     restart: always
     volumes:
       - ./ssrf_proxy/squid.conf.template:/etc/squid/squid.conf.template
@@ -149,7 +149,7 @@ services:
 
   # The Weaviate vector store.
   weaviate:
-    image: semitechnologies/weaviate:1.19.0
+    image: docker.arvancloud.ir/semitechnologies/weaviate:1.19.0
     profiles:
       - ""
       - weaviate
@@ -173,7 +173,7 @@ services:
       AUTHORIZATION_ADMINLIST_ENABLED: ${WEAVIATE_AUTHORIZATION_ADMINLIST_ENABLED:-true}
       AUTHORIZATION_ADMINLIST_USERS: ${WEAVIATE_AUTHORIZATION_ADMINLIST_USERS:-hello@dify.ai}
     ports:
-      - "${EXPOSE_WEAVIATE_PORT:-8080}:8080"
+      - "${EXPOSE_WEAVIATE_PORT:-8090}:8080"
 
 networks:
   # create a network between sandbox, api and ssrf_proxy, and can not access outside.
