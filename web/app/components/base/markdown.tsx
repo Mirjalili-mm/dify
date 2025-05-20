@@ -128,13 +128,19 @@ const CodeBlock: any = memo(({ inline, className, children = '', ...props }: any
   const language = match?.[1]
   const languageShowName = getCorrectCapitalizationLanguageName(language || '')
   const chartData = useMemo(() => {
+    const str = String(children).replace(/\n$/, '')
     if (language === 'echarts') {
       try {
-        return JSON.parse(String(children).replace(/\n$/, ''))
+        return JSON.parse(str)
+      }
+      catch { }
+      try {
+        // eslint-disable-next-line no-new-func, sonarjs/code-eval
+        return new Function(`return ${str}`)()
       }
       catch { }
     }
-    return JSON.parse('{"title":{"text":"ECharts error - Wrong JSON format."}}')
+    return JSON.parse('{"title":{"text":"ECharts error - Wrong option."}}')
   }, [language, children])
 
   const renderCodeContent = useMemo(() => {
@@ -210,16 +216,24 @@ CodeBlock.displayName = 'CodeBlock'
 
 const VideoBlock: any = memo(({ node }: any) => {
   const srcs = node.children.filter((child: any) => 'properties' in child).map((child: any) => (child as any).properties.src)
-  if (srcs.length === 0)
+  if (srcs.length === 0) {
+    const src = node.properties?.src
+    if (src)
+      return <VideoGallery key={src} srcs={[src]} />
     return null
+  }
   return <VideoGallery key={srcs.join()} srcs={srcs} />
 })
 VideoBlock.displayName = 'VideoBlock'
 
 const AudioBlock: any = memo(({ node }: any) => {
   const srcs = node.children.filter((child: any) => 'properties' in child).map((child: any) => (child as any).properties.src)
-  if (srcs.length === 0)
+  if (srcs.length === 0) {
+    const src = node.properties?.src
+    if (src)
+      return <AudioGallery key={src} srcs={[src]} />
     return null
+  }
   return <AudioGallery key={srcs.join()} srcs={srcs} />
 })
 AudioBlock.displayName = 'AudioBlock'
