@@ -500,7 +500,7 @@ x-shared-env: &shared-api-worker-env
 services:
   # API service
   api:
-    image: langgenius/dify-api:1.4.0
+    image: 78.39.136.87:5050/danava/danava-api:latest
     restart: always
     environment:
       # Use the shared environment variables.
@@ -529,7 +529,7 @@ services:
   # worker service
   # The Celery worker for processing the queue.
   worker:
-    image: langgenius/dify-api:1.4.0
+    image: 78.39.136.87:5050/danava/danava-api:latest
     restart: always
     environment:
       # Use the shared environment variables.
@@ -555,7 +555,7 @@ services:
 
   # Frontend web application.
   web:
-    image: langgenius/dify-web:1.4.0
+    image: 78.39.136.87:5050/danava/danava-web:latest
     restart: always
     environment:
       CONSOLE_API_URL: ${CONSOLE_API_URL:-}
@@ -579,7 +579,7 @@ services:
       ENABLE_WEBSITE_WATERCRAWL: ${ENABLE_WEBSITE_WATERCRAWL:-true}
   # The postgres database.
   db:
-    image: postgres:15-alpine
+    image: 78.39.136.87:5050/danava/postgres:15-alpine
     restart: always
     environment:
       PGUSER: ${PGUSER:-postgres}
@@ -602,7 +602,7 @@ services:
 
   # The redis cache.
   redis:
-    image: redis:6-alpine
+    image: 78.39.136.87:5050/danava/redis:6-alpine
     restart: always
     environment:
       REDISCLI_AUTH: ${REDIS_PASSWORD:-difyai123456}
@@ -616,7 +616,7 @@ services:
 
   # The DifySandbox
   sandbox:
-    image: langgenius/dify-sandbox:0.2.12
+    image: 78.39.136.87:5050/danava/langgenius/dify-sandbox:0.2.11
     restart: always
     environment:
       # The DifySandbox configurations
@@ -640,7 +640,7 @@ services:
 
   # plugin daemon
   plugin_daemon:
-    image: langgenius/dify-plugin-daemon:0.0.10-local
+    image: 78.39.136.87:5050/danava/langgenius/dify-plugin-daemon:0.0.9-local
     restart: always
     environment:
       # Use the shared environment variables.
@@ -694,7 +694,7 @@ services:
   # for more information, please refer to
   # https://docs.dify.ai/learn-more/faq/install-faq#18-why-is-ssrf-proxy-needed%3F
   ssrf_proxy:
-    image: ubuntu/squid:latest
+    image: 78.39.136.87:5050/danava/ubuntu-squid:latest
     restart: always
     volumes:
       - ./ssrf_proxy/squid.conf.template:/etc/squid/squid.conf.template
@@ -773,7 +773,7 @@ services:
 
   # The Weaviate vector store.
   weaviate:
-    image: semitechnologies/weaviate:1.19.0
+    image: 78.39.136.87:5050/danava/weaviate:1.19.0
     profiles:
       - ''
       - weaviate
